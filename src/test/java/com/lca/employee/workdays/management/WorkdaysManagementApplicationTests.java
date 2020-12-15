@@ -10,6 +10,9 @@ import org.junit.rules.ExpectedException;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
@@ -19,9 +22,12 @@ class WorkdaysManagementApplicationTests {
     @Rule
     public ExpectedException exceptionRule = ExpectedException.none();
 
+    final double THRESHOLD = .0001;
+
     @Test
     void contextLoads() {
     }
+
 
     @Test
     void whenHourlyEmplyeesUpdateWork_calculateVacation() throws GlobalCustomException {
@@ -29,8 +35,7 @@ class WorkdaysManagementApplicationTests {
         user.work(260);
         assertThat(user.getVacationDays()).isEqualTo(10);
         user.takeVacation(5.0);
-        assertThat(user.getVacationDays()).isEqualTo(5);
-        user.takeVacation(7.0);
+        assertThat(Math.abs(user.getVacationDays() - 5.0) < THRESHOLD);
 
     }
 
@@ -38,18 +43,19 @@ class WorkdaysManagementApplicationTests {
     void whenManagerEmplyeesUpdateWork_calculateVacation() throws GlobalCustomException {
         Employee user = new Employee("Sekhar", 1000, EmployeeType.MANAGER);
         user.work(260);
-        assertThat(user.getVacationDays()).isEqualTo(30);
+        assertThat(Math.abs(user.getVacationDays() - 30) < THRESHOLD);
         user.takeVacation(5.0);
-        assertThat(user.getVacationDays()).isEqualTo(25);
+        assertThat(Math.abs(user.getVacationDays() - 25) < THRESHOLD);
     }
 
     @Test
     void whenSalariedEmplyeesUpdateWork_calculateVacation() throws GlobalCustomException {
+
         Employee user = new Employee("Sekhar", 1000, EmployeeType.SALARIED);
         user.work(260);
-        assertThat(user.getVacationDays()).isEqualTo(15);
+        assertThat(Math.abs(user.getVacationDays() - 15) < THRESHOLD);
         user.takeVacation(5.0);
-        assertThat(user.getVacationDays()).isEqualTo(10);
+        assertThat(Math.abs(user.getVacationDays() - 10) < THRESHOLD);
     }
 
     @Test()
