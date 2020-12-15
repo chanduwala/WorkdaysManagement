@@ -22,4 +22,4 @@ Make sure you have node installed
 
 Open the browser and open `http://localhost:4200/`
 
-There are so many improvements that can be done to this application, This is what I could do in a half a day :)
+There are so many improvements that can be done to this application, This is what I could do in a half day :)
