@@ -1,0 +1,35 @@
+<!-- dialog-box.component.html -->
+<h1 mat-dialog-title>Update <strong>{{local_data.action}}</strong></h1>
+<div mat-dialog-content center>
+  <mat-form-field>
+    <input
+      #workDays
+      [disabled]="local_data.action === 'leave'"
+      id="workDays"
+      type="number"
+      placeholder="Update WorkDays"
+      matInput
+      value="{{ local_data.workDays }}"
+    />
+  </mat-form-field>
+  <mat-form-field>
+    <input
+      [disabled]="local_data.action === 'work'"
+      #vacationDays
+      id="vacationDays"
+      type="number"
+      placeholder="Vacation Days You Want To Apply"
+      matInput
+      value="{{ local_data.vacationDays }}"
+    />
+  </mat-form-field>
+</div>
+<div *ngIf="error && error.length > 0" style="color: red;">{{ error }}</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="doAction(workDays.value, vacationDays.value)">
+    Save
+  </button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">
+    Cancel
+  </button>
+</div>

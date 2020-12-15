@@ -1,0 +1,36 @@
+<mat-toolbar>
+  <span>Employee List</span>
+</mat-toolbar>
+
+<div class="example-container mat-elevation-z8">
+  <mat-table #table [dataSource]="dataSource">
+    <!-- Generic column definition -->
+    <ng-container
+      *ngFor="let column of columns"
+      [cdkColumnDef]="column.columnDef"
+    >
+      <mat-header-cell *cdkHeaderCellDef>{{ column.header }}</mat-header-cell>
+      <div
+        *ngIf="column.header != 'Actions'; then content; else other_content"
+      ></div>
+      <ng-template #content>
+        <mat-cell *cdkCellDef="let row" [innerHTML]="column.cell(row)">
+          {{ column.cell(row) }}
+        </mat-cell></ng-template
+      >
+      <ng-template #other_content>
+        <mat-cell *cdkCellDef="let row">
+          <button #work md-raised-button (click)="openDialog('work', row)">
+            Update Work
+          </button>
+          <button #leave md-raised-button (click)="openDialog('leave', row)">
+            Apply Leave
+          </button>
+        </mat-cell></ng-template
+      >
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+  </mat-table>
+</div>
